@@ -57,7 +57,7 @@ def build_values_from_fields(fields: Dict[str, Any]):
     """
     return [fields.get(at_name) for at_name in FIELD_MAP.keys()]
 
-def build_instert_query():
+def build_insert_query():
     cols = ["airtable_id"] + list(FIELD_MAP.values())
     col_list = ", ".join(cols)
     placeholders = ", ".join(["%s"] * len(cols))
@@ -81,7 +81,7 @@ def build_update_query():
 def find_record_by_id(conn, airtable_id: str) -> Optional[Dict[str, Any]]:
     with conn.cursor() as cur:
         cur.execute(
-            f"SELECT * FROM {PG_TABLE_NAME} WHERE record_id = %s",
+            f"SELECT * FROM {PG_TABLE_NAME} WHERE airtable_id = %s",
             (airtable_id,)
         )
         row = cur.fetchone()
